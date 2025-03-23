@@ -3,3 +3,8 @@ header{
     padding: 10px;
     border-bottom: 1px solid #e9ecef;
 }
+
+.nav-link{
+    color: #fff;
+    background-color: hsl(277, 58%, 65%);
+}
