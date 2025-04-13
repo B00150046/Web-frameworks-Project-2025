@@ -18,12 +18,13 @@
     
 </head>
     <body>
-        {% include 'orchidea/Base/Header.html' %}
+        {% include 'orchidea/Base/Header_Customer.html' %}
         <main>
         {% block content %}
-       {% include 'orchidea/Home.html' %}
-        {% endblock %}
-        </main>
-        {% include 'orchidea/Base/Footer.html' %}
-    </body>
+    
+    <h1>Welcome, {{ customer.user.username }}!</h1>
+    {% endblock %}
+</main>
+{% include 'orchidea/Base/Footer.html' %}
+</body>
 </html>

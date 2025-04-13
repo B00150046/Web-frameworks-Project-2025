@@ -8,3 +8,7 @@ header{
     color: #fff;
     background-color: hsl(277, 58%, 65%);
 }
+
+.form-control{
+    border: 1px solid #ced4da;
+}
