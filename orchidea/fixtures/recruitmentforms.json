@@ -1,0 +1,11 @@
+[
+    {
+        "model": "orchidea.recruitmentform",
+        "pk": 1,
+        "fields": {
+            "candidate_ID": 1,
+            "status": "pending",
+            "date": "2025-04-10"
+        }
+    }
+]

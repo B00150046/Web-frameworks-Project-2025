@@ -1,0 +1,4 @@
+include README.md
+recursive-include orchidea/static *
+recursive-include orchidea/templates *
+recursive-include orchidea/fixtures *

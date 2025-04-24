@@ -1,0 +1,95 @@
+{% extends 'orchidea/Base/Body-Base.html' %}
+
+{% block title %}
+Manage Appointments - Orchidea Lux
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Manage Appointments</h1>
+    {% if bookings %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Booking ID</th>
+                    <th>Customer Name</th>
+                    <th>Service</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in bookings %}
+                <tr>
+                    <td>{{ booking.id }}</td>
+                    <td>{{ booking.customer_ID.user_ID.username }}</td>
+                    <td>{{ booking.appointment_ID.name }}</td>
+                    <td>{{ booking.date }}</td>
+                    <td>{{ booking.time }}</td>
+                    <td>
+                        <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#detailsModal{{ booking.id }}">
+                            View Details
+                        </button>
+                        <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#cancelModal{{ booking.id }}">
+                            Cancel
+                        </button>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No bookings available.</p>
+    {% endif %}
+</div>
+
+<!-- Details Modal -->
+{% for booking in bookings %}
+<div class="modal fade" id="detailsModal{{ booking.id }}" tabindex="-1" aria-labelledby="detailsModalLabel{{ booking.id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailsModalLabel{{ booking.id }}">Booking Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Customer:</strong> {{ booking.customer_ID.user_ID.username }}</p>
+                <p><strong>Service:</strong> {{ booking.appointment_ID.name }}</p>
+                <p><strong>Description:</strong> {{ booking.appointment_ID.description }}</p>
+                <p><strong>Date:</strong> {{ booking.date }}</p>
+                <p><strong>Duration:</strong> {{ booking.appointment_ID.duration }}</p>
+                <p><strong>Cost:</strong> ${{ booking.appointment_ID.cost }}</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+<!-- Cancel Modal -->
+{% for booking in bookings %}
+<div class="modal fade" id="cancelModal{{ booking.id }}" tabindex="-1" aria-labelledby="cancelModalLabel{{ booking.id }}" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="cancelModalLabel{{ booking.id }}">Cancel Booking</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to cancel this booking?
+            </div>
+            <div class="modal-footer">
+                <form method="POST" action="{% url 'orchidea:cancel-booking' User_Id=User_Id pk=booking.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Yes, Cancel</button>
+                </form>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No, Go Back</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% endblock %}

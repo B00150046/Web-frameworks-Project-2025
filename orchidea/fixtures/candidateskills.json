@@ -1,0 +1,26 @@
+[
+    {
+        "model": "orchidea.candidateskill",
+        "pk": 1,
+        "fields": {
+            "form_ID": 1,
+            "skill_ID": 1
+        }
+    },
+    {
+        "model": "orchidea.candidateskill",
+        "pk": 2,
+        "fields": {
+            "form_ID": 1,
+            "skill_ID": 2
+        }
+    },
+    {
+        "model": "orchidea.candidateskill",
+        "pk": 3,
+        "fields": {
+            "form_ID": 1,
+            "skill_ID": 3
+        }
+    }
+]

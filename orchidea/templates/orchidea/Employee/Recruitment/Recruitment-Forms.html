@@ -1,0 +1,102 @@
+{%extends 'orchidea/Base/Body-Base.html'%}
+{%block title%}
+Recruitment Forms
+{%endblock%}
+{%block content%}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Recruitment Forms</h2>
+    <div class="row">
+        {% for form in recruitment_forms %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Candidate: {{ form.candidate_ID.user_ID.username }}</h5>
+                    <p class="card-text">Status: {{ form.status }}</p>
+                    <p class="card-text">Date: {{ form.date }}</p>
+                    <div class="mb-3">
+                        <button type="button" class="btn btn-primary w-100 mb-2" data-bs-toggle="modal" data-bs-target="#detailsModal{{ form.id }}">
+                            View Details
+                        </button>
+                        <button type="button" class="btn btn-danger w-100 mb-2" data-bs-toggle="modal" data-bs-target="#deleteModal{{ form.id }}">
+                            Delete
+                        </button>
+                        <button type="button" class="btn btn-success w-100 mb-2" data-bs-toggle="modal" data-bs-target="#acceptModal{{ form.id }}">
+                            Accept
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Details Modal -->
+        <div class="modal fade" id="detailsModal{{ form.id }}" tabindex="-1" aria-labelledby="detailsModalLabel{{ form.id }}" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="detailsModalLabel{{ form.id }}">Recruitment Form Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p><strong>Candidate:</strong> {{ form.candidate_ID.user_ID.username }}</p>
+                        <p><strong>Status:</strong> {{ form.status }}</p>
+                        <p><strong>Date:</strong> {{ form.date }}</p>
+                        <h4>Skills:</h4>
+                        <ul>
+                            {% for skill in form.cand_Skills.all %}
+                            <li>{{ skill.name }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Delete Confirmation Modal -->
+        <div class="modal fade" id="deleteModal{{ form.id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ form.id }}" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel{{ form.id }}">Confirm Deletion</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to delete Recruitment Form #{{ form.id }}?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <a href="{% url 'orchidea:rejectRecruitment' User_Id=employee.user_ID.id pk=form.id %}" class="btn btn-danger">Delete</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Accept Confirmation Modal -->
+        <div class="modal fade" id="acceptModal{{ form.id }}" tabindex="-1" aria-labelledby="acceptModalLabel{{ form.id }}" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="acceptModalLabel{{ form.id }}">Confirm Acceptance</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Are you sure you want to accept Recruitment Form #{{ form.id }}? This will:
+                        <ul>
+                            <li>Mark this form as <strong>Accepted</strong>.</li>
+                            <li>Delete all other recruitment forms for this candidate.</li>
+                            <li>Convert the candidate into an employee.</li>
+                        </ul>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <a href="{% url 'orchidea:acceptRecruitment' User_Id=employee.user_ID.id pk=form.id %}" class="btn btn-success">Accept</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{%endblock%}

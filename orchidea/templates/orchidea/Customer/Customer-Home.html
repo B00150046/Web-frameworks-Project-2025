@@ -1,0 +1,33 @@
+{% extends 'orchidea/Base/Body-Base.html' %}
+{% load static %}
+
+{% block title %}Customer Home - Orchidea Lux{% endblock %}
+
+{% block content %}
+<div class="container-fluid p-0">
+    <h1 class="text-center mb-4" style="font-family: 'Playfair Display', serif; color: #8b70cd;">Welcome, {{ customer.user_ID.username }}</h1>
+
+    <!-- Divider -->
+    <hr class="my-5">
+
+    <!-- Two Columns Section -->
+    <div class="container text-center">
+        <div class="row justify-content-center">
+            <div class="col-md-5 p-4 mb-4" style="background-color: #c9bce7; border-radius: 10px; color: #ffffff;">
+                <h3 style="font-family: 'Playfair Display', serif;">Your Appointments</h3>
+                <p style="font-family: 'Playfair Display', serif;">
+                    View and manage your upcoming appointments with ease.
+                </p>
+                <a href="{% url 'orchidea:appointments' User_Id=User_Id %}" class="btn btn-primary">View Appointments</a>
+            </div>
+            <div class="col-md-5 p-4 mb-4 ms-md-4" style="background-color: #8b70cd; border-radius: 10px; color: #ffffff;">
+                <h3 style="font-family: 'Playfair Display', serif;">Your Bookings</h3>
+                <p style="font-family: 'Playfair Display', serif;">
+                    Check your current bookings and make changes if needed.
+                </p>
+                <a href="{% url 'orchidea:bookings' User_Id=User_Id %}" class="btn btn-primary">View Bookings</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

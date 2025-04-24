@@ -1,0 +1,21 @@
+{% extends 'orchidea/Base/Body-Base.html' %}
+
+{% block title %}
+Reject Recruitment Form
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4" style="font-family: 'Playfair Display', serif; color: #8b70cd;">Reject Recruitment Form</h2>
+    <div class="card p-4 shadow-lg">
+        <p>Are you sure you want to reject and delete this recruitment form?</p>
+        <form method="post">
+            {% csrf_token %}
+            <div class="d-flex justify-content-between mt-4">
+                <button type="submit" class="btn btn-danger">Confirm</button>
+                <a href="{% url 'orchidea:employee-recruitment' User_Id=User_Id %}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

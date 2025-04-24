@@ -1,0 +1,33 @@
+{% extends 'orchidea/Base/Body-Base.html' %}
+{% load static %}
+
+{% block title %}Candidate Home - Orchidea Lux{% endblock %}
+
+{% block content %}
+<div class="container-fluid p-0">
+    <h1 class="text-center mb-4" style="font-family: 'Playfair Display', serif; color: #8b70cd;">Welcome, {{ candidate.user_ID.username }}</h1>
+
+    <!-- Divider -->
+    <hr class="my-5">
+
+    <!-- Two Columns Section -->
+    <div class="container text-center">
+        <div class="row justify-content-center">
+            <div class="col-md-5 p-4 mb-4" style="background-color: #c9bce7; border-radius: 10px; color: #ffffff;">
+                <h3 style="font-family: 'Playfair Display', serif;">Apply for Recruitment</h3>
+                <p style="font-family: 'Playfair Display', serif;">
+                    Submit a new recruitment form to showcase your skills.
+                </p>
+                <a href="{% url 'orchidea:apply-form' User_Id=User_Id %}" class="btn btn-primary">Apply Now</a>
+            </div>
+            <div class="col-md-5 p-4 mb-4 ms-md-4" style="background-color: #8b70cd; border-radius: 10px; color: #ffffff;">
+                <h3 style="font-family: 'Playfair Display', serif;">View Your Forms</h3>
+                <p style="font-family: 'Playfair Display', serif;">
+                    Check the status of your submitted recruitment forms.
+                </p>
+                <a href="{% url 'orchidea:candidate-recruitment' User_Id=User_Id %}" class="btn btn-primary">View Forms</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

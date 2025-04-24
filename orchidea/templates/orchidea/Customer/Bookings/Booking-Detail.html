@@ -1,0 +1,33 @@
+{% extends 'orchidea/Base/Body-Base.html' %}
+{% load static %}
+
+{% block title %}
+Booking Details - Orchidea Lux
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4" style="font-family: 'Playfair Display', serif; color: #8b70cd;">Booking Details</h2>
+    <div class="card p-4 shadow-lg">
+        <h3 class="card-title">{{ booking.appointment_ID.name }}</h3>
+        <p class="card-text"><strong>Description:</strong> {{ booking.appointment_ID.description }}</p>
+        <p class="card-text"><strong>Duration:</strong> {{ booking.appointment_ID.duration }}</p>
+        <p class="card-text"><strong>Cost:</strong> ${{ booking.appointment_ID.cost }}</p>
+        <p class="card-text"><strong>Date:</strong> {{ booking.date }}</p>
+        <p class="card-text"><strong>Employee:</strong> {{ booking.employee_ID.user_ID.username }}</p>
+        <div class="d-flex justify-content-between mt-4">
+            <form method="post" action="{% url 'orchidea:customer-single-booking' User_Id=User_Id pk=booking.id %}">
+                {% csrf_token %}
+                <label for="date" class="form-label">Change Date:</label>
+                <input type="date" id="date" name="date" class="form-control mb-3" required>
+                <button type="submit" class="btn btn-primary">Update Date</button>
+            </form>
+            <form method="post" action="{% url 'orchidea:cancelBooking' User_Id=User_Id pk=booking.id %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Cancel Booking</button>
+            </form>
+            <a href="{% url 'orchidea:bookings' User_Id=User_Id %}" class="btn btn-secondary">Back to Bookings</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'orchidea/Base/Other-Base.html' %}
+
+{% block title %}
+Logout
+{% endblock %}
+
+{% block content %}
+<h1>Logout</h1>
+<p>Are you sure you want to logout?</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-primary">Logout</button>
+</form>
+{% endblock %}

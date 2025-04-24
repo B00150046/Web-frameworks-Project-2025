@@ -1,0 +1,24 @@
+{% extends 'orchidea/Base/Body-Base.html' %}
+{% load static %}
+
+{% block title %}
+Appointment Details - Orchidea Lux
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4" style="font-family: 'Playfair Display', serif; color: #8b70cd;">Appointment Details</h2>
+    <div class="card p-4 shadow-lg">
+        <img src="{% static 'orchidea/images/Filler_' %}{{ appointment.id }}.jpg" class="card-img-top mb-4" alt="Appointment Image">
+        <h3 class="card-title">{{ appointment.name }}</h3>
+        <p class="card-text"><strong>Description:</strong> {{ appointment.description }}</p>
+        <p class="card-text"><strong>Duration:</strong> {{ appointment.duration }}</p>
+        <p class="card-text"><strong>Cost:</strong> ${{ appointment.cost }}</p>
+        <div class="d-flex justify-content-between mt-4">
+            <a href="{% url 'orchidea:makeBooking' User_Id=User_Id pk=appointment.id %}" class="btn btn-primary">Book Now</a>
+            <a href="{% url 'orchidea:appointments' User_Id=User_Id %}" class="btn btn-secondary">Back to Appointments</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% include 'orchidea/Base/Footer.html' %}

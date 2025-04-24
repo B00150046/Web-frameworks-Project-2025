@@ -1,0 +1,26 @@
+{% extends 'orchidea/Base/Other-Base.html' %}
+
+{% block title %}
+Register
+{% endblock %}
+
+{% block content %}
+<div class="text-center py-5">
+    <p class="display-3">Hold it!</p>
+    <p class="display-6">Before we register you in, are you an...</p>
+</div>
+<div class="d-flex gap-2 justify-content-center py-5">
+    <a href="{% url 'orchidea:registerCustomer' %}" class="btn btn-primary d-inline-flex align-items-center">
+        Customer
+        <i class="bi bi-arrow-right-short" style="font-size: 1.5em;"></i>
+    </a>
+    <a href="{% url 'orchidea:registerEmployee' %}" class="btn btn-primary d-inline-flex align-items-center">
+        Employee
+        <i class="bi bi-arrow-right-short" style="font-size: 1.5em;"></i>
+    </a>
+    <a href="{% url 'orchidea:registerCandidate' %}" class="btn btn-primary d-inline-flex align-items-center">
+        Candidate
+        <i class="bi bi-arrow-right-short" style="font-size: 1.5em;"></i>
+    </a>
+</div>
+{% endblock %}

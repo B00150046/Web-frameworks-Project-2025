@@ -1,0 +1,24 @@
+{% extends 'orchidea/Base/Body-Base.html' %}
+{% block title %}
+Recruitment Form Details
+{% endblock %}
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4" style="font-family: 'Playfair Display', serif; color: #8b70cd;">Recruitment Form Details</h2>
+    <div class="card p-4 shadow-lg">
+        <p><strong>Candidate:</strong> {{ recruitment_form.candidate_ID.user_ID.username }}</p>
+        <p><strong>Status:</strong> {{ recruitment_form.status }}</p>
+        <p><strong>Date:</strong> {{ recruitment_form.date }}</p>
+        <h4>Skills:</h4>
+        <ul>
+            {% for skill in recruitment_form.cand_Skills.all %}
+            <li>{{ skill.name }}</li>
+            {% endfor %}
+        </ul>
+        <div class="d-flex justify-content-between mt-4">
+            <a href="{% url 'orchidea:acceptRecruitment' User_Id=User_Id pk=recruitment_form.id %}" class="btn btn-success">Accept</a>
+            <a href="{% url 'orchidea:rejectRecruitment' User_Id=User_Id pk=recruitment_form.id %}" class="btn btn-danger">Reject</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

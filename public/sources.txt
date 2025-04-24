@@ -1,0 +1,32 @@
+Most front visuals including modals, navbars, vards and custom-coloured buttons were created with
+Bootstrap CSS & JS
+
+Logo.svg
+    Note- The following image was generated via ChatGpt and heavily edited for clairity:
+
+Spa_interior_1.jpg
+    https://mir-s3-cdn-cf.behance.net/project_modules/1400/a722c9129601079.616ecc85b18fc.jpg
+
+Spa_interior_2.jpg
+    https://q-xx.bstatic.com/xdata/images/hotel/max1024x768/548611926.jpg?k=90c4054a562ed06013d21ab9b2b2e7fa19edd28dc3d4c7a9643e1bfca95cff75&o=&s=1024x
+
+Spa_interior_3.jpg
+    https://tirbnb.com/wp-content/uploads/2024/04/Elmwood-Spa.jpg
+
+Filler_1
+    https://thehealthypractice.co.uk/wp-content/uploads/2019/07/Aromatherapy-min.jpeg
+
+Filler_2
+    https://styletips101.com/wp-content/uploads/2017/04/spa-supplies.jpg
+
+Filler_3
+    https://wallpaperaccess.com/spa-orchids
+
+Filler_4
+    https://wallpaperaccess.com/relaxing-spa
+
+Filler_5
+    https://png.pngtree.com/thumb_back/fh260/background/20220509/pngtree-spa-setting-and-health-care-items-candle-flower-aroma-photo-image_24336378.jpg
+
+Filler_6
+    https://img.freepik.com/premium-photo/beautiful-spa-composition-blue-background_392895-260142.jpg?w=2000
