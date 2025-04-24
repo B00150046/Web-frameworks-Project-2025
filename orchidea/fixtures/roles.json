@@ -1,0 +1,25 @@
+[
+    {
+        "model": "orchidea.customer",
+        "pk": 1,
+        "fields": {
+            "user_ID": 1
+        }
+    },
+    {
+        "model": "orchidea.employee",
+        "pk": 1,
+        "fields": {
+            "user_ID": 2,
+            "phone_number": "1-800-5123"
+        }
+    },
+    {
+        "model": "orchidea.candidate",
+        "pk": 1,
+        "fields": {
+            "user_ID": 3,
+            "phone_number": "1-800-5724"
+        }
+    }
+]

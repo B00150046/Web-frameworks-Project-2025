@@ -1,0 +1,23 @@
+[
+    {
+        "model": "orchidea.skill",
+        "pk": 1,
+        "fields": {
+            "name": "Skill 1"
+        }
+    },
+    {
+        "model": "orchidea.skill",
+        "pk": 2,
+        "fields": {
+            "name": "Skill 2"
+        }
+    },
+    {
+        "model": "orchidea.skill",
+        "pk": 3,
+        "fields": {
+            "name": "Skill 3"
+        }
+    }
+]

@@ -1,0 +1,2 @@
+recursive-include orchidea/static *
+recursive-include orchidea/templates *

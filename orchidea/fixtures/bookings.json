@@ -1,0 +1,12 @@
+[
+    {
+        "model": "orchidea.booking",
+        "pk": 1,
+        "fields": {
+            "customer_ID": 1,
+            "employee_ID": 1,
+            "appointment_ID": 1,
+            "date": "2025-04-20"
+        }
+    }
+]

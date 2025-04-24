@@ -1,0 +1,26 @@
+[
+    {
+        "model": "orchidea.employeeskill",
+        "pk": 1,
+        "fields": {
+            "employee": 1,
+            "skill": 1
+        }
+    },
+    {
+        "model": "orchidea.employeeskill",
+        "pk": 2,
+        "fields": {
+            "employee": 1,
+            "skill": 2
+        }
+    },
+    {
+        "model": "orchidea.employeeskill",
+        "pk": 3,
+        "fields": {
+            "employee": 1,
+            "skill": 3
+        }
+    }
+]

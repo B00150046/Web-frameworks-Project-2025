@@ -1,0 +1,78 @@
+{% extends 'orchidea/Base/Body-Base.html' %}
+{% load static %}
+
+{% block title %}Home - Orchidea Lux{% endblock %}
+
+{% block content %}
+<div class="container-fluid p-0">
+    <h1 class="text-center mb-4" style="font-family: 'Playfair Display', serif; color: #8b70cd;">Welcome to Orchidea Lux</h1>
+
+    <!-- Carousel -->
+    <div id="spaCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <div class="carousel-image-wrapper">
+                    <img src="{% static 'orchidea/images/Spa_interior_1.jpg' %}" class="d-block w-100" alt="Spa Interior 1" style="height: 500px; object-fit: cover; filter: brightness(70%);">
+                    <div class="carousel-caption d-none d-md-block" style="background-color: rgba(139, 112, 205, 0.8); border-radius: 10px; padding: 10px;">
+                        <h5 style="font-family: 'Playfair Display', serif; color: #ffffff;">Relax in Our Luxurious Spa</h5>
+                        <p style="font-family: 'Playfair Display', serif; color: #ffffff;">Experience tranquility and rejuvenation like never before.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="carousel-image-wrapper">
+                    <img src="{% static 'orchidea/images/Spa_interior_2.jpg' %}" class="d-block w-100" alt="Spa Interior 2" style="height: 500px; object-fit: cover; filter: brightness(70%);">
+                    <div class="carousel-caption d-none d-md-block" style="background-color: rgba(139, 112, 205, 0.8); border-radius: 10px; padding: 10px;">
+                        <h5 style="font-family: 'Playfair Display', serif; color: #ffffff;">State-of-the-Art Facilities</h5>
+                        <p style="font-family: 'Playfair Display', serif; color: #ffffff;">Indulge in our modern and serene spa environment.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="carousel-image-wrapper">
+                    <img src="{% static 'orchidea/images/Spa_interior_3.jpg' %}" class="d-block w-100" alt="Spa Interior 3" style="height: 500px; object-fit: cover; filter: brightness(70%);">
+                    <div class="carousel-caption d-none d-md-block" style="background-color: rgba(139, 112, 205, 0.8); border-radius: 10px; padding: 10px;">
+                        <h5 style="font-family: 'Playfair Display', serif; color: #ffffff;">Personalized Treatments</h5>
+                        <p style="font-family: 'Playfair Display', serif; color: #ffffff;">Our experts provide tailored treatments for your needs.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#spaCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#spaCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+    <!-- Divider -->
+    <hr class="my-5">
+
+    <!-- Two Columns Section -->
+    <div class="container text-center">
+        <div class="row justify-content-center">
+            <div class="col-md-5 p-4 mb-4" style="background-color: #c9bce7; border-radius: 10px; color: #ffffff;">
+                <h3 style="font-family: 'Playfair Display', serif;">About Orchidea Lux</h3>
+                <p style="font-family: 'Playfair Display', serif;">
+                    Orchidea Lux is your ultimate destination for relaxation and rejuvenation. 
+                    Our luxurious spa offers state-of-the-art facilities and personalized treatments 
+                    tailored to your needs. Experience tranquility like never before.
+                </p>
+            </div>
+            <div class="col-md-5 p-4 mb-4 ms-md-4" style="background-color: #8b70cd; border-radius: 10px; color: #ffffff;">
+                <h3 style="font-family: 'Playfair Display', serif;">Our Services</h3>
+                <ul class="list-unstyled" style="font-family: 'Playfair Display', serif;">
+                    <li>Massage Therapy</li>
+                    <li>Facial Treatments</li>
+                    <li>Body Scrubs</li>
+                    <li>Manicure and Pedicure</li>
+                    <li>Specialized Wellness Programs</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

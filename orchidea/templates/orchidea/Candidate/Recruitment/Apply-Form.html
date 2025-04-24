@@ -1,0 +1,57 @@
+{% extends 'orchidea/Base/Other-Base.html' %}
+
+{% block title %}
+Apply for Recruitment - Orchidea Lux
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="card p-4 shadow-lg" style="max-width: 600px; width: 100%;">
+        <h2 class="text-center mb-4" style="font-family: 'Playfair Display', serif; color: #8b70cd;">Apply for Recruitment</h2>
+
+        {% if error %}
+            <div class="alert alert-danger">
+                <p>{{ error }}</p>
+            </div>
+        {% endif %}
+
+        <form method="POST">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="name" class="form-label">Full Name</label>
+                <input type="text" class="form-control" id="name" name="name" value="{{ candidate.user_ID.username }}" readonly>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email Address</label>
+                <input type="email" class="form-control" id="email" name="email" value="{{ candidate.user_ID.email }}" readonly>
+            </div>
+            <div class="mb-3">
+                <label for="phone_number" class="form-label">Phone Number</label>
+                <input type="text" class="form-control" id="phone_number" name="phone_number" value="{{ candidate.phone_number }}" readonly>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Select Skills (Minimum 3):</label>
+                <div class="row">
+                    {% for skill in skills %}
+                        <div class="col-md-6">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="skill{{ skill.id }}" name="skills[]" value="{{ skill.id }}">
+                                <label class="form-check-label" for="skill{{ skill.id }}">{{ skill.name }}</label>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                {% if skills|length < 3 %}
+                    <div class="alert alert-warning mt-2">
+                        <p>Please select at least 3 skills.</p>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="d-flex justify-content-between mt-4">
+                <button type="submit" class="btn btn-primary">Submit Application</button>
+                <a href="{% url 'orchidea:homeCandidate' User_Id=User_Id %}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

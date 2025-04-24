@@ -1,0 +1,12 @@
+[
+    {
+        "model": "orchidea.appointment",
+        "pk": 1,
+        "fields": {
+            "name": "Relaxation Massage",
+            "description": "A soothing massage to relieve stress.",
+            "duration": "01:00:00",
+            "cost": "50.00"
+        }
+    }
+]
