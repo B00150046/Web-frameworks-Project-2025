@@ -1,0 +1,27 @@
+{% extends 'orchidea/Base/Other-Base.html' %}
+
+{% block title %}
+Withdraw Recruitment Form
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center">Withdraw Recruitment Form</h2>
+    <p class="text-center">Are you sure you want to withdraw Recruitment Form #{{ recruitment_form.pk }}?</p>
+    <p class="text-center"><strong>Status:</strong> {{ recruitment_form.status|title }}</p>
+    <p class="text-center"><strong>Submitted On:</strong> {{ recruitment_form.date }}</p>
+    <p class="text-center"><strong>Skills:</strong></p>
+    <ul class="text-center">
+        {% for skill in recruitment_form.cand_Skills.all %}
+            <li>{{ skill.name }}</li>
+        {% endfor %}
+    </ul>
+    <div class="text-center mt-4">
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Withdraw</button>
+            <a href="{% url 'orchidea:candidate-recruitment' User_Id=User_Id %}" class="btn btn-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

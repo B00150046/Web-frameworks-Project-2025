@@ -1,0 +1,92 @@
+{% extends 'orchidea/Base/Other-Base.html' %}
+
+{% block title %}
+Recruitment Forms - Orchidea Lux
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Your Recruitment Forms</h2>
+
+    {% if recruitment_forms %}
+        <div class="row">
+            {% for form in recruitment_forms %}
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-lg h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Form #{{ form.pk }}</h5>
+                            <p><strong>Status:</strong> {{ form.status|title }}</p>
+                            <p><strong>Submitted On:</strong> {{ form.date }}</p>
+                            <p><strong>Skills:</strong></p>
+                            <ul>
+                                {% for skill in form.skills %}
+                                    <li>{{ skill.name }}</li>
+                                {% endfor %}
+                            </ul>
+                            <button type="button" class="btn btn-primary w-100 mb-2" data-bs-toggle="modal" data-bs-target="#viewModal{{ form.pk }}">
+                                View Details
+                            </button>
+                            <button type="button" class="btn btn-danger w-100 mb-2" data-bs-toggle="modal" data-bs-target="#withdrawModal{{ form.pk }}">
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- View Details Modal -->
+                <div class="modal fade" id="viewModal{{ form.pk }}" tabindex="-1" aria-labelledby="viewModalLabel{{ form.pk }}" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="viewModalLabel{{ form.pk }}">Recruitment Form Details</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <p><strong>Form ID:</strong> {{ form.pk }}</p>
+                                <p><strong>Status:</strong> {{ form.status|title }}</p>
+                                <p><strong>Submitted On:</strong> {{ form.date }}</p>
+                                <p><strong>Skills:</strong></p>
+                                <ul>
+                                    {% for skill in form.skills %}
+                                        <li>{{ skill.name }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Delete Confirmation Modal -->
+                <div class="modal fade" id="withdrawModal{{ form.pk }}" tabindex="-1" aria-labelledby="withdrawModalLabel{{ form.pk }}" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="withdrawModalLabel{{ form.pk }}">Confirm Deletion</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                Are you sure you want to delete Recruitment Form #{{ form.pk }}?
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                <a href="{% url 'orchidea:withdrawRecruitment' User_Id=User_Id pk=form.pk %}" class="btn btn-danger">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4">
+            <a href="{% url 'orchidea:homeCandidate' User_Id=User_Id %}" class="btn btn-secondary">Back</a>
+        </div>
+    {% else %}
+        <p class="text-center">You have not submitted any recruitment forms yet.</p>
+        <div class="text-center mt-4">
+            <a href="{% url 'orchidea:homeCandidate' User_Id=User_Id %}" class="btn btn-secondary">Back</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

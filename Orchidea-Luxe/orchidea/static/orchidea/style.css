@@ -1,14 +1,163 @@
-header{
-    background-color: #a0d406;
-    padding: 10px;
-    border-bottom: 1px solid #e9ecef;
+/* General Reset */
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    font-family: 'Playfair Display', serif; /* Elegant font for the entire application */
+    background-color: #f9f9f9; /* Light background for contrast */
 }
 
-.nav-link{
-    color: #fff;
-    background-color: hsl(277, 58%, 65%);
+/* Header */
+header {
+    background-color: #8b70cd; /* Primary purple */
+    border-bottom: 1px solid #e6e6e6; /* Light gray border */
+    width: 100%;
+    margin: 0;
+    padding: 0.5rem 1rem;
+    font-family: 'Playfair Display', serif; /* Match header font with the rest of the application */
 }
 
-.form-control{
+header .nav-link {
+    color: #ffffff; /* White text */
+    background-color: #8b70cd; /* Match header background */
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    font-family: 'Playfair Display', serif; /* Elegant font for navigation links */
+}
+
+header .nav-link:hover {
+    background-color: #ffffff; /* White background */
+    color: #8b70cd; /* Primary purple text */
+}
+
+/* Buttons */
+button, .btn {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    font-family: 'Playfair Display', serif; /* Elegant font for buttons */
+}
+
+.btn-primary {
+    background-color: #8b70cd; /* Primary purple */
+    color: #ffffff; /* White text */
+}
+
+.btn-primary:hover {
+    background-color: #aa96da; /* Lighter purple */
+}
+
+.btn-danger {
+    background-color: #e6e6e6; /* Light gray */
+    color: #000000; /* Black text */
+}
+
+.btn-danger:hover {
+    background-color: #c9bce7; /* Soft purple */
+}
+
+.btn-success {
+    background-color: #c9bce7; /* Soft purple */
+    color: #ffffff; /* White text */
+}
+
+.btn-success:hover {
+    background-color: #8b70cd; /* Primary purple */
+}
+
+.btn-secondary {
+    background-color: #e7e1f5; /* Light lavender */
+    color: #000000; /* Black text */
+}
+
+.btn-secondary:hover {
+    background-color: #c9bce7; /* Soft purple */
+}
+
+/* Forms */
+.form-control {
     border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 0.5rem;
+    font-size: 1rem;
+}
+
+.form-control:focus {
+    border-color: #8b70cd; /* Primary purple */
+    box-shadow: 0 0 5px rgba(139, 112, 205, 0.5); /* Purple glow */
+}
+
+/* Cards */
+.card {
+    border: 1px solid #e6e6e6; /* Light gray border */
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    background-color: #ffffff; /* White background */
+}
+
+.card-title {
+    color: #8b70cd; /* Primary purple */
+    font-weight: bold;
+    font-family: 'Playfair Display', serif; /* Elegant font for card titles */
+}
+
+.card-body {
+    padding: 1rem;
+}
+
+/* Modals */
+.modal-content {
+    border-radius: 10px;
+    border: 1px solid #e6e6e6; /* Light gray border */
+}
+
+.modal-header {
+    background-color: #e6e6e6; /* Primary purple */
+    color: #ffffff; /* White text */
+    border-bottom: 1px solid #e6e6e6; /* Light gray border */
+    font-family: 'Playfair Display', serif; /* Elegant font for modal headers */
+}
+
+.modal-footer .btn {
+    margin: 0 0.5rem;
+}
+
+/* Footer */
+footer {
+    background-color: #e6e6e6; /* Primary purple */
+    color: #ffffff; /* White text */
+    text-align: center;
+    padding: 1rem;
+    margin-top: 2rem;
+    font-family: 'Playfair Display', serif; /* Elegant font for footer */
+}
+
+/* Utility Classes */
+.text-center {
+    text-align: center;
+}
+
+.mt-4 {
+    margin-top: 1.5rem;
+}
+
+.mt-5 {
+    margin-top: 3rem;
+}
+
+.mb-4 {
+    margin-bottom: 1.5rem;
+}
+
+.mb-2 {
+    margin-bottom: 0.5rem;
+}
+
+.shadow-lg {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Stronger shadow */
 }

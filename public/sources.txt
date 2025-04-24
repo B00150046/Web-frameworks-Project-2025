@@ -1,0 +1,26 @@
+Most front visuals including modals, navbars, vards and custom-coloured buttons were created with
+Bootstrap CSS & JS
+
+Logo.svg
+    Note- The following image was heavily edited for clairity:
+
+Spa_interior_1.jpg
+    https://mir-s3-cdn-cf.behance.net/project_modules/1400/a722c9129601079.616ecc85b18fc.jpg
+
+Spa_interior_2.jpg
+    https://q-xx.bstatic.com/xdata/images/hotel/max1024x768/548611926.jpg?k=90c4054a562ed06013d21ab9b2b2e7fa19edd28dc3d4c7a9643e1bfca95cff75&o=&s=1024x
+
+Spa_interior_3.jpg
+    https://tirbnb.com/wp-content/uploads/2024/04/Elmwood-Spa.jpg
+
+Filler_1
+
+Filler_2
+
+Filler_3
+
+Filler_4
+
+Filler_5
+
+Filler_6

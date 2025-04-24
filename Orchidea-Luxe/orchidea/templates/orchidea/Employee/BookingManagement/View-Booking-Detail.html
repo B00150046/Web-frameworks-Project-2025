@@ -1,0 +1,18 @@
+{% extends 'orchidea/Base/Other-Base.html' %}
+
+{% block title %}
+Booking Details - Orchidea Lux
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Booking Details</h1>
+    <p><strong>Customer:</strong> {{ booking.customer_ID.user_ID.username }}</p>
+    <p><strong>Service:</strong> {{ booking.appointment_ID.name }}</p>
+    <p><strong>Description:</strong> {{ booking.appointment_ID.description }}</p>
+    <p><strong>Date:</strong> {{ booking.date }}</p>
+    <p><strong>Duration:</strong> {{ booking.appointment_ID.duration }}</p>
+    <p><strong>Cost:</strong> ${{ booking.appointment_ID.cost }}</p>
+    <a href="{% url 'orchidea:employee-bookings' User_Id=User_Id %}" class="btn btn-secondary">Back to Bookings</a>
+</div>
+{% endblock %}

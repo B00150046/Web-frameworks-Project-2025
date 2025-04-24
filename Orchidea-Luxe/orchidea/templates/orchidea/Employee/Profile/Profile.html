@@ -1,0 +1,23 @@
+{% extends 'orchidea/Base/Body-Base.html' %}
+
+<main>
+    {% block title %}
+Employee Profile - Orchidea Lux
+{% endblock %}
+    {% block content %}
+    <div class="container mt-4">
+        <h1>Welcome, {{ employee.user_ID.username }}!</h1>
+        <p>Here are your skills:</p>
+        <ul>
+            {% for skill in skills %}
+                <li>{{ skill.skill.name }} 
+                    <a href="{% url 'orchidea:deleteSkill' User_Id=User_Id pk=skill.id %}" class="btn btn-danger btn-sm ms-2">Delete</a>
+                </li>
+            {% empty %}
+                <p>You have not added any skills yet.</p>
+            {% endfor %}
+        </ul>
+        <a href="{% url 'orchidea:addSkill' User_Id=User_Id %}" class="btn btn-primary mt-3">Add Skill</a>
+    </div>
+    {% endblock %}
+</main>

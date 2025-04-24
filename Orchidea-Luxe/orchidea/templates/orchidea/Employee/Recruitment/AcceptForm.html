@@ -1,0 +1,23 @@
+{% extends 'orchidea/Base/Body-Base.html' %}
+
+{% block title %}
+Accept Recruitment Form
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Accept Recruitment Form</h2>
+    <p>Are you sure you want to accept this recruitment form?</p>
+    <p>This action will:</p>
+    <ul>
+        <li>Mark this form as <strong>Accepted</strong>.</li>
+        <li>Delete all other recruitment forms for this candidate.</li>
+        <li>Convert the candidate into an employee.</li>
+    </ul>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-success">Confirm</button>
+        <a href="{% url 'orchidea:employee-recruitment' User_Id=User_Id %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

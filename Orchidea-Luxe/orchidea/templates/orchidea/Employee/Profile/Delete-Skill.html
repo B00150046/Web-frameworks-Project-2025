@@ -1,0 +1,17 @@
+{% extends 'orchidea/Base/Other-Base.html' %}
+
+{% block title %}
+Delete Skill - Orchidea Lux
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Delete Skill</h1>
+    <p>Are you sure you want to delete the skill <strong>{{ employee_skill.skill.name }}</strong>?</p>
+    <form method="POST">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a href="{% url 'orchidea:profile' User_Id=User_Id %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

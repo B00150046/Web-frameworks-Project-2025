@@ -36,6 +36,7 @@ class Candidate(models.Model):
 
 class Employee(models.Model):
     user_ID = models.OneToOneField(User, on_delete=models.CASCADE)
+    skills = models.ManyToManyField('Skill', through='EmployeeSkill'),
     phone_number = models.CharField(max_length=20, default="0000000000")
 
     def __str__(self):
@@ -51,18 +52,22 @@ class Skill(models.Model):
         return self.name
 
 class EmployeeSkill(models.Model):
-    employee_ID = models.ForeignKey(Employee, on_delete=models.CASCADE)
-    skill_ID = models.ForeignKey(Skill, on_delete=models.CASCADE)
+    employee = models.ForeignKey(Employee, on_delete=models.CASCADE, related_name="employee_skills")
+    skill = models.ForeignKey(Skill, on_delete=models.CASCADE, related_name="skill_employees")
+
+    #To ensure no duplicate skills for the same employee
+    class Meta:
+        unique_together = ('employee', 'skill')  
 
     def __str__(self):
-        return f"{self.employee_ID.user_ID.username} - {self.skill_ID.name}"
+        return f"{self.employee.user_ID.username} - {self.skill.name}"
 
 # ---------------------------
 # Recruitment Models
 # ---------------------------
 class RecruitmentForm(models.Model):
     candidate_ID = models.ForeignKey(Candidate, on_delete=models.CASCADE)
-    cand_Skills = models.ManyToManyField(Skill, through='CandidateSkill')
+    cand_Skills = models.ManyToManyField('Skill', through='CandidateSkill', related_name="recruitment_forms")  # Added related_name for reverse lookup
     status = models.CharField(max_length=50, default="pending")  # e.g. 'pending', 'accepted', etc.
     date = models.DateField(auto_now_add=True)
 
@@ -70,11 +75,11 @@ class RecruitmentForm(models.Model):
         return f"RecruitmentForm - {self.candidate_ID.user_ID.username}"
     
 class CandidateSkill(models.Model):
-    form_ID = models.ForeignKey(RecruitmentForm, on_delete=models.CASCADE)
-    skill_ID = models.ForeignKey(Skill, on_delete=models.CASCADE)
+    form_ID = models.ForeignKey(RecruitmentForm, on_delete=models.CASCADE, related_name="candidate_skills")  # Ensure related_name is consistent
+    skill_ID = models.ForeignKey(Skill, on_delete=models.CASCADE, related_name="candidate_skills")  # Ensure related_name is consistent
 
     def __str__(self):
-        return f"{self.candidate_ID.user_ID.username} - {self.skill_ID.name}"
+        return f"{self.form_ID.candidate_ID.user_ID.username} - {self.skill_ID.name}"
 
 class RecruitmentReview(models.Model):
     employee_ID = models.ForeignKey(Employee, on_delete=models.CASCADE)
@@ -91,6 +96,7 @@ class Appointment(models.Model):
     name = models.CharField(max_length=100, default="Default Appointment")
     description = models.CharField(max_length=200, default="No description")
     duration = models.DurationField(default=timedelta(hours=1))
+    cost = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
 
     def __str__(self):
         return self.name
@@ -100,7 +106,6 @@ class Booking(models.Model):
     employee_ID = models.ForeignKey(Employee, on_delete=models.CASCADE)
     appointment_ID = models.ForeignKey(Appointment, on_delete=models.CASCADE)
     date = models.DateField(default=default_appointment_date)
-    cost = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
 
     def __str__(self):
         return f"Booking {self.id} - {self.customer_ID.user_ID.username} - {self.employee_ID.user_ID.username}"
