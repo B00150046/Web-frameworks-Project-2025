@@ -3,8 +3,8 @@
         "model": "orchidea.user",
         "pk": 1,
         "fields": {
-            "username": "customer1",
-            "email": "customer1@example.com",
+            "username": "Customer1",
+            "email": "Cust1@Cust1.com",
             "password": "pbkdf2_sha256$870000$vdsKEjCF5VLfsC59g6AUE7$856RA2SfUdioowYseRWU3xtvsC0M7H+B5N4Rk+tQtW8=",
             "created_at": "2025-04-01T12:00:00Z"
         }
@@ -13,8 +13,8 @@
         "model": "orchidea.user",
         "pk": 2,
         "fields": {
-            "username": "employee1",
-            "email": "employee1@example.com",
+            "username": "Employee1",
+            "email": "Emp1@Emp1.com",
             "password": "pbkdf2_sha256$870000$vdsKEjCF5VLfsC59g6AUE7$856RA2SfUdioowYseRWU3xtvsC0M7H+B5N4Rk+tQtW8=",
             "created_at": "2025-04-02T12:00:00Z"
         }
@@ -23,8 +23,8 @@
         "model": "orchidea.user",
         "pk": 3,
         "fields": {
-            "username": "candidate1",
-            "email": "candidate1@example.com",
+            "username": "Candidate1",
+            "email": "Cand1@Cand1.com",
             "password": "pbkdf2_sha256$870000$vdsKEjCF5VLfsC59g6AUE7$856RA2SfUdioowYseRWU3xtvsC0M7H+B5N4Rk+tQtW8=",
             "created_at": "2025-04-03T12:00:00Z"
         }
@@ -56,21 +56,42 @@
         "model": "orchidea.skill",
         "pk": 1,
         "fields": {
-            "name": "Skill 1"
+            "name": "Massage Therapy"
         }
     },
     {
         "model": "orchidea.skill",
         "pk": 2,
         "fields": {
-            "name": "Skill 2"
+            "name": "Aromatherapy"
         }
     },
     {
         "model": "orchidea.skill",
         "pk": 3,
         "fields": {
-            "name": "Skill 3"
+            "name": "Skin and Beauty Treatment"
+        }
+    },
+    {
+        "model": "orchidea.skill",
+        "pk": 4,
+        "fields": {
+            "name": "Customer Service"
+        }
+    },
+    {
+        "model": "orchidea.skill",
+        "pk": 5,
+        "fields": {
+            "name": "Wellness and Nutrition Coaching"
+        }
+    },
+    {
+        "model": "orchidea.skill",
+        "pk": 6,
+        "fields": {
+            "name": "Hydrotherapy Techniques"
         }
     },
     {
@@ -97,24 +118,65 @@
             "skill": 3
         }
     },
+   
     {
         "model": "orchidea.appointment",
         "pk": 1,
         "fields": {
-            "name": "Relaxation Massage",
-            "description": "A soothing massage to relieve stress.",
+            "name": "Swedish Massage",
+            "description": "A relaxing full-body massage using gentle to firm pressure to improve circulation and ease muscle tension.",
             "duration": "PT1H",
+            "cost": "70.00"
+        }
+    },
+    {
+        "model": "orchidea.appointment",
+        "pk": 2,
+        "fields": {
+            "name": "Aromatherapy Facial",
+            "description": "A rejuvenating facial treatment using essential oils tailored to your skin type to cleanse, exfoliate, and hydrate.",
+            "duration": "PT45M",
             "cost": "50.00"
         }
     },
     {
-        "model": "orchidea.booking",
-        "pk": 1,
+        "model": "orchidea.appointment",
+        "pk": 3,
         "fields": {
-            "customer_ID": 1,
-            "employee_ID": 1,
-            "appointment_ID": 1,
-            "date": "2025-04-20"
+            "name": "Deep Tissue Massage",
+            "description": "A therapeutic massage targeting deeper layers of muscle and connective tissue, ideal for chronic pain or tight areas.",
+            "duration": "PT1H15M",
+            "cost": "90.00"
+        }
+    },
+    {
+        "model": "orchidea.appointment",
+        "pk": 4,
+        "fields": {
+            "name": "Detoxifying Body Wrap",
+            "description": "A mineral-rich clay or seaweed wrap designed to draw out toxins and nourish the skin, followed by a moisturizing treatment.",
+            "duration": "PT1H",
+            "cost": "80.00"
+        }
+    },
+    {
+        "model": "orchidea.appointment",
+        "pk": 5,
+        "fields": {
+            "name": "Hot Stone Therapy",
+            "description": "A soothing massage using heated basalt stones to relieve tension, improve blood flow, and promote relaxation.",
+            "duration": "PT1H30M",
+            "cost": "100.00"
+        }
+    },
+    {
+        "model": "orchidea.appointment",
+        "pk": 6,
+        "fields": {
+            "name": "Luxury Spa Manicure",
+            "description": "A pampering manicure with exfoliation, mask, massage, nail shaping, and polish, leaving your hands silky smooth.",
+            "duration": "PT40M",
+            "cost": "40.00"
         }
     },
     {
@@ -125,31 +187,8 @@
             "status": "pending",
             "date": "2025-04-10"
         }
-    },
-    {
-        "model": "orchidea.candidateskill",
-        "pk": 1,
-        "fields": {
-            "form_ID": 1,
-            "skill_ID": 1
-        }
-    },
-    {
-        "model": "orchidea.candidateskill",
-        "pk": 2,
-        "fields": {
-            "form_ID": 1,
-            "skill_ID": 2
-        }
-    },
-    {
-        "model": "orchidea.candidateskill",
-        "pk": 3,
-        "fields": {
-            "form_ID": 1,
-            "skill_ID": 3
-        }
     }
+  
 ]
 
 

@@ -32,6 +32,7 @@ urlpatterns = [
     path("employee/<int:User_Id>/viewBookings/<int:pk>/", views.EmployeeBookingView.as_view(), name='employee-single-booking'),
     path("employee/<int:User_Id>/viewBookings/<int:pk>/cancel/", views.CancelEmployeeBookingView.as_view(), name='cancel-booking'),
     path("employee/<int:User_Id>/viewBookings/<int:pk>/details/", views.EmployeeBookingDetailView.as_view(), name='employee-appointment-detail'),
+    path('employee/<int:User_Id>/bookings/<int:pk>/cancel/', views.CancelEmployeeBookingView.as_view(), name='cancelEmployeeBooking'),
     #View Recruitment Forms
     path("employee/<int:User_Id>/viewRecruitmentForms/", views.RecruitmentView.as_view(), name='employee-recruitment'),
     path("employee/<int:User_Id>/viewRecruitmentForms/<int:pk>/", views.SingleRecruitmentView.as_view(), name='employee-single-recruitment'),
