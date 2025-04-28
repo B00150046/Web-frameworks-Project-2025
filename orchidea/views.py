@@ -1,13 +1,12 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect, HttpResponseForbidden
 from django.shortcuts import get_object_or_404, render, redirect
 from django.views import generic
+from django.urls import reverse
 from .models import User, Customer, Employee, Appointment, Skill, Candidate, RecruitmentForm, Booking, EmployeeSkill, CandidateSkill
 from django.contrib.auth.hashers import make_password, check_password
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
-import logging
-
-logger = logging.getLogger('orchidea')
+from django.contrib.sessions.models import Session
 
 # ╔══════════════════════════════════════════════════════════════════════════════╗
 # ║                                GENERAL VIEWS                                 ║
@@ -34,9 +33,14 @@ class LogoutView(generic.View):
     def get(self, request):
         return render(request, self.template_name)
 
+    @method_decorator(csrf_exempt)
     def post(self, request):
         request.session.flush()
-        return redirect('orchidea:home')
+        return HttpResponseRedirect(reverse('orchidea:home'))
+
+def flush_sessions(request):
+    Session.objects.all().delete()
+    return HttpResponse("All sessions have been flushed.")
 
 # ╔══════════════════════════════════════════════════════════════════════════════╗
 # ║                        CUSTOMER-SPECIFIC VIEWS                               ║
@@ -53,10 +57,10 @@ class CustRegisterView(generic.View):
         password = request.POST.get("password")
 
         if not username or not email or not password:
-            return render(request, self.template_name, {"error": "All fields are required"})
+            return render(request, self.template_name, {"error": "All fields are required."})
 
         if User.objects.filter(email=email).exists():
-            return render(request, self.template_name, {"error": "Email already registered"})
+            return render(request, self.template_name, {"error": "Email is already registered."})
 
         try:
             user = User.objects.create(
@@ -64,12 +68,13 @@ class CustRegisterView(generic.View):
                 email=email,
                 password=make_password(password)
             )
-            customer = Customer.objects.create(user_ID=user)
-            request.session["customer_id"] = customer.id
+            Customer.objects.create(user_ID=user)
+
+            request.session["customer_id"] = user.id
             request.session["user_name"] = user.username
+
             return redirect("orchidea:homeCustomer", User_Id=user.id)
-        except Exception as e:
-            logger.error(f"Error creating user: {e}")
+        except Exception:
             return render(request, self.template_name, {"error": "An error occurred during registration. Please try again."})
 
 class LoginCustomerView(generic.View):
@@ -87,20 +92,25 @@ class LoginCustomerView(generic.View):
             if not check_password(password, user.password):
                 return render(request, self.template_name, {"error": "Invalid email or password"})
             customer = Customer.objects.get(user_ID=user)
-            request.session["customer_id"] = customer.id
+
+            request.session["customer_id"] = user.id
             request.session["user_name"] = user.username
             return redirect("orchidea:homeCustomer", User_Id=user.id)
         except User.DoesNotExist:
             return render(request, self.template_name, {"error": "Invalid email or password"})
         except Customer.DoesNotExist:
             return render(request, self.template_name, {"error": "No customer account linked to this user"})
+        except Exception:
+            return render(request, self.template_name, {"error": "An unexpected error occurred. Please try again."})
 
 class CustomerHomeView(generic.View):
     template_name = 'orchidea/Customer/Customer-Home.html'
 
     def get(self, request, User_Id):
-        if request.session.get("customer_id") != User_Id:
-            return HttpResponse("You are not authorized to view this page.", status=403)
+        customer_id = request.session.get("customer_id")
+        if customer_id != User_Id:
+            return HttpResponseForbidden("You are not authorized to view this page.")
+        
         user = get_object_or_404(User, id=User_Id)
         customer = get_object_or_404(Customer, user_ID=user)
         return render(request, self.template_name, {
@@ -151,6 +161,7 @@ class makeBookingView(generic.View):
             'User_Id': User_Id
         })
 
+    @method_decorator(csrf_exempt)
     def post(self, request, User_Id, pk):
         user = get_object_or_404(User, id=User_Id)
         customer = get_object_or_404(Customer, user_ID=user)
@@ -235,22 +246,45 @@ class CancelBookingView(generic.View):
     template_name = 'orchidea/Customer/Bookings/Delete-Booking.html'
 
     def get(self, request, User_Id, pk):
+        if "customer_id" not in request.session or int(request.session["customer_id"]) != int(User_Id):
+            return HttpResponseForbidden("You are not authorized to access this booking.")
+
         user = get_object_or_404(User, id=User_Id)
         customer = get_object_or_404(Customer, user_ID=user)
         booking = get_object_or_404(Booking, id=pk, customer_ID=customer)
+
         return render(request, self.template_name, {
-            'user': user,
             'customer': customer,
             'booking': booking,
+            'user_type': 'customer',
             'User_Id': User_Id
         })
 
     def post(self, request, User_Id, pk):
+        if "customer_id" not in request.session or int(request.session["customer_id"]) != int(User_Id):
+            return HttpResponseForbidden("You are not authorized to cancel this booking.")
+
         user = get_object_or_404(User, id=User_Id)
         customer = get_object_or_404(Customer, user_ID=user)
         booking = get_object_or_404(Booking, id=pk, customer_ID=customer)
-        booking.delete()  # Delete the booking
-        return redirect('orchidea:bookings', User_Id=User_Id)  # Redirect to the bookings page
+
+        booking.delete()
+        return redirect('orchidea:bookings', User_Id=User_Id)
+
+def cancelBooking(request, customer_id, booking_id):
+    if "customer_id" not in request.session:
+        return HttpResponseForbidden("You do not have permission to cancel this booking.")
+
+    if int(request.session["customer_id"]) != int(customer_id):
+        return HttpResponseForbidden("You do not have permission to cancel this booking.")
+
+    try:
+        booking = Booking.objects.get(id=booking_id, customer_ID__user_ID__id=customer_id)
+    except Booking.DoesNotExist:
+        return HttpResponseForbidden("Booking does not exist or does not belong to you.")
+
+    booking.delete()
+    return HttpResponseRedirect(reverse('orchidea:bookings', args=[customer_id]))
 
 # ╔══════════════════════════════════════════════════════════════════════════════╗
 # ║                        EMPLOYEE-SPECIFIC VIEWS                               ║
@@ -280,18 +314,17 @@ class EmpRegisterView(generic.View):
                 password=make_password(password)
             )
             employee = Employee.objects.create(user_ID=user, phone_number=phone_number)
-            request.session["employee_id"] = employee.id
+            
+            request.session["employee_id"] = user.id
             request.session["user_name"] = user.username
             return redirect("orchidea:homeEmployee", User_Id=user.id)
-        except Exception as e:
-            logger.error(f"Error creating user: {e}")
+        except Exception:
             return render(request, self.template_name, {"error": "An error occurred during registration. Please try again."})
 
 class LoginEmployeeView(generic.View):
     template_name = 'orchidea/Login/Login-Emp.html'
 
     def get(self, request):
-        logger.debug("Employee login page accessed.")
         return render(request, self.template_name)
 
     def post(self, request):
@@ -299,30 +332,29 @@ class LoginEmployeeView(generic.View):
         password = request.POST.get("password")
 
         try:
-            logger.debug(f"Attempting login for employee with email: {email}")
             user = User.objects.get(email=email)
             if not check_password(password, user.password):
-                logger.warning(f"Password mismatch for employee email: {email}")
                 return render(request, self.template_name, {"error": "Invalid email or password"})
             employee = Employee.objects.get(user_ID=user)
-            logger.info(f"Employee login successful: {employee.user_ID.username}")
-            request.session["employee_id"] = employee.id
+
+            request.session["employee_id"] = user.id
             request.session["user_name"] = user.username
             return redirect("orchidea:homeEmployee", User_Id=user.id)
         except User.DoesNotExist:
-            logger.error(f"User not found for email: {email}")
             return render(request, self.template_name, {"error": "Invalid email or password"})
         except Employee.DoesNotExist:
-            logger.error(f"No employee account linked to email: {email}")
             return render(request, self.template_name, {"error": "No employee account linked to this user"})
-        except Exception as e:
-            logger.critical(f"Unexpected error during employee login: {e}")
+        except Exception:
             return render(request, self.template_name, {"error": "An unexpected error occurred. Please try again."})
 
 class HomeEmployeeView(generic.View):
     template_name = 'orchidea/Employee/Employee-Home.html'
 
     def get(self, request, User_Id):
+        employee_id = request.session.get("employee_id")
+        if employee_id != User_Id:
+            return HttpResponseForbidden("You are not authorized to view this page.")
+        
         user = get_object_or_404(User, id=User_Id)
         employee = get_object_or_404(Employee, user_ID=user)
         return render(request, self.template_name, {
@@ -359,33 +391,32 @@ class EmployeeBookingDetailView(generic.View):
             'User_Id': User_Id
         })
 
-class CancelBookingView(generic.View):
+class CancelEmployeeBookingView(generic.View):
     template_name = 'orchidea/Employee/BookingManagement/Cancel-Booking.html'
 
     def get(self, request, User_Id, pk):
+        if "employee_id" not in request.session or int(request.session["employee_id"]) != int(User_Id):
+            return HttpResponseForbidden("You are not authorized to access this booking.")
+
         user = get_object_or_404(User, id=User_Id)
-        if not hasattr(user, 'employee'):
-            return HttpResponse(status=403)
-        try:
-            employee = Employee.objects.get(user_ID=user)
-        except Employee.DoesNotExist:
-            return HttpResponse(status=404)
+        employee = get_object_or_404(Employee, user_ID=user)
         booking = get_object_or_404(Booking, id=pk, employee_ID=employee)
+
         return render(request, self.template_name, {
             'employee': employee,
             'booking': booking,
+            'user_type': 'employee',
             'User_Id': User_Id
         })
 
     def post(self, request, User_Id, pk):
+        if "employee_id" not in request.session or int(request.session["employee_id"]) != int(User_Id):
+            return HttpResponseForbidden("You are not authorized to cancel this booking.")
+
         user = get_object_or_404(User, id=User_Id)
-        if not hasattr(user, 'employee'):
-            return HttpResponse(status=403)
-        try:
-            employee = Employee.objects.get(user_ID=user)
-        except Employee.DoesNotExist:
-            return HttpResponse(status=404)
+        employee = get_object_or_404(Employee, user_ID=user)
         booking = get_object_or_404(Booking, id=pk, employee_ID=employee)
+
         booking.delete()
         return redirect('orchidea:employee-bookings', User_Id=User_Id)
 
@@ -470,7 +501,6 @@ class EmployeeProfileView(generic.View):
         skills = EmployeeSkill.objects.filter(employee=employee)
         return render(request, self.template_name, {
             'employee': employee,
-            'skills': skills,
             'user_type': 'employee',
             'User_Id': User_Id
         })
@@ -516,26 +546,6 @@ class DeleteEmployeeSkillView(generic.View):
         employee_skill.delete()
         return redirect('orchidea:profile', User_Id=User_Id)
 
-class CancelEmployeeBookingView(generic.View):
-    template_name = 'orchidea/Employee/BookingManagement/Cancel-Booking.html'
-
-    def get(self, request, User_Id, pk):
-        user = get_object_or_404(User, id=User_Id)
-        employee = get_object_or_404(Employee, user_ID=user)
-        booking = get_object_or_404(Booking, id=pk, employee_ID=employee)
-        return render(request, self.template_name, {
-            'employee': employee,
-            'booking': booking,
-            'User_Id': User_Id
-        })
-
-    def post(self, request, User_Id, pk):
-        user = get_object_or_404(User, id=User_Id)
-        employee = get_object_or_404(Employee, user_ID=user)
-        booking = get_object_or_404(Booking, id=pk, employee_ID=employee)
-        booking.delete()
-        return redirect('orchidea:employee-bookings', User_Id=User_Id)
-
 # ╔══════════════════════════════════════════════════════════════════════════════╗
 # ║                        CANDIDATE-SPECIFIC VIEWS                              ║
 # ╚══════════════════════════════════════════════════════════════════════════════╝
@@ -563,19 +573,19 @@ class CandRegisterView(generic.View):
                 email=email,
                 password=make_password(password)
             )
-            candidate = Candidate.objects.create(user_ID=user)
-            request.session["candidate_id"] = candidate.id
+            Candidate.objects.create(user_ID=user)
+
+            request.session["candidate_id"] = user.id
             request.session["user_name"] = user.username
+
             return redirect("orchidea:homeCandidate", User_Id=user.id)
-        except Exception as e:
-            logger.error(f"Error creating user: {e}")
+        except Exception:
             return render(request, self.template_name, {"error": "An error occurred during registration. Please try again."})
 
 class LoginCandidateView(generic.View):
     template_name = 'orchidea/Login/Login-Cand.html'
 
     def get(self, request):
-        logger.debug("Candidate login page accessed.")
         return render(request, self.template_name)
 
     def post(self, request):
@@ -583,32 +593,29 @@ class LoginCandidateView(generic.View):
         password = request.POST.get("password")
 
         try:
-            logger.debug(f"Attempting login for candidate with email: {email}")
             user = User.objects.get(email=email)
             if not check_password(password, user.password):
-                logger.warning(f"Password mismatch for candidate email: {email}")
                 return render(request, self.template_name, {"error": "Invalid email or password"})
             candidate = Candidate.objects.get(user_ID=user)
-            logger.info(f"Candidate login successful: {candidate.user_ID.username}")
-            request.session["candidate_id"] = candidate.id
+
+            request.session["candidate_id"] = user.id
             request.session["user_name"] = user.username
             return redirect("orchidea:homeCandidate", User_Id=user.id)
         except User.DoesNotExist:
-            logger.error(f"User not found for email: {email}")
             return render(request, self.template_name, {"error": "Invalid email or password"})
         except Candidate.DoesNotExist:
-            logger.error(f"No candidate account linked to email: {email}")
             return render(request, self.template_name, {"error": "No candidate account linked to this user"})
-        except Exception as e:
-            logger.critical(f"Unexpected error during candidate login: {e}")
+        except Exception:
             return render(request, self.template_name, {"error": "An unexpected error occurred. Please try again."})
 
 class HomeCandidateView(generic.View):
     template_name = 'orchidea/Candidate/Candidate-Home.html'
 
     def get(self, request, User_Id):
-        if request.session.get("candidate_id") != User_Id:
-            return HttpResponse("You are not authorized to view this page.", status=403)
+        candidate_id = request.session.get("candidate_id")
+        if candidate_id != User_Id:
+            return HttpResponseForbidden("You are not authorized to view this page.")
+        
         user = get_object_or_404(User, id=User_Id)
         candidate = get_object_or_404(Candidate, user_ID=user)
         return render(request, self.template_name, {

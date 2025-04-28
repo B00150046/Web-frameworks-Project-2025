@@ -38,6 +38,7 @@ LOGGING = {
 MIDDLEWARE = [
     # ...existing code...
     'django.middleware.csrf.CsrfViewMiddleware',  # Ensure this middleware is enabled
+    'django.contrib.sessions.middleware.SessionMiddleware',
     # ...existing code...
 ]
 
